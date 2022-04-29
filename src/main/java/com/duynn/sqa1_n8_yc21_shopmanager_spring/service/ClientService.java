@@ -28,10 +28,6 @@ public class ClientService implements GeneralService<Client>{
     }
 
     @Override
-    public int delete(Client client) throws Exception {
-        return 0;
-    }
-
     public int delete(int id) throws Exception {
         return clientRepository.deleteClient(id);
     }

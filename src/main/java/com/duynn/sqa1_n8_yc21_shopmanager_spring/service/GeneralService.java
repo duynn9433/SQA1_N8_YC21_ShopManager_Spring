@@ -8,6 +8,6 @@ public interface GeneralService<T>  {
 
     T update(T t) throws  Exception;
 
-    int delete(T t) throws Exception;
+    int delete(int id) throws Exception;
 
 }

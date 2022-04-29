@@ -27,6 +27,10 @@ public class BuyingGoodsService implements GeneralService<BuyingGoods>{
     }
 
     @Override
+    public int delete(int id) throws Exception {
+        return buyingGoodsRepository.deleteBuyingGoods(id);
+    }
+
     public int delete(BuyingGoods buyingGoods) throws Exception {
         return buyingGoodsRepository.deleteBuyingGoods(buyingGoods.getID());
     }

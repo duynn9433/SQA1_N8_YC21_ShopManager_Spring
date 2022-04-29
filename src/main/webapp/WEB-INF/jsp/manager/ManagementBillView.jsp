@@ -23,7 +23,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<% String error = request.getSession().getAttribute("error").toString();
+%>
+<script>
+    const error = "<%= error %>";
+    if (error !== "") {
+        alert(error);
+        <%request.getSession().removeAttribute("error");%>
+    }
+</script>
 <div class="container">
 <%--    <div class="row">--%>
 <%--        <div class="col-sm-4">--%>
@@ -43,7 +51,7 @@
     </div>
     <div class="row ">
         <div class="col-12 text-center">
-            <form class="form-inline" action="<c:url value="/ManagementBillServlet"/>" method="POST">
+            <form class="form-inline" action="/bill/search" method="POST">
                 <div class="input-group">
                     <input type="text" class="form-control" size="80" placeholder="id của đơn hàng"
                            name="search_id">
@@ -92,9 +100,9 @@
 </div>
 <script>
     function Confirm(id){
-        var choose = confirm("ban co muon xoa hoa don nay?");
+        var choose = confirm("Bạn có muốn xoá hoá đơn này không?");
         if(choose==true){
-            window.location.href='ManagementBillServlet?id='+id;
+            window.location.href='/bill/delete?id='+id;
             //var x = window.location.href;
             //console.log(x);
         }

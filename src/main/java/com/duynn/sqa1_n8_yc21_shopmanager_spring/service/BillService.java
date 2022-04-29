@@ -27,7 +27,15 @@ public class BillService implements GeneralService<Bill> {
     }
 
     @Override
-    public int delete(Bill bill) throws Exception {
-        return billRepository.deleteBill(bill.getId());
+    public int delete(int id) throws Exception {
+        return billRepository.deleteBill(id);
+    }
+
+    public List<Bill> search(int id) throws Exception {
+        return billRepository.findBillByIdAndIsActiveIsTrueAndIsPaidIsFalse(id);
+    }
+
+    public List<Bill> findAll() throws Exception {
+        return billRepository.findAllByIsActiveIsTrueAndIsPaidIsFalse();
     }
 }

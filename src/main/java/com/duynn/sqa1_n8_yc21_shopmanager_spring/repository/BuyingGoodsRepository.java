@@ -11,4 +11,6 @@ public interface BuyingGoodsRepository extends JpaRepository<BuyingGoods, Intege
     @Modifying
     @Query(value = "update buying_goods set is_active=0 where id=?1",nativeQuery = true)
     int deleteBuyingGoods(Integer id);
+
+    BuyingGoods findByID(Integer id);
 }
