@@ -22,8 +22,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<% String error = request.getSession().getAttribute("error").toString();
-    System.out.println("SellingHome:" + error);%>
+<% String error = request.getSession().getAttribute("error").toString();%>
 <script>
     const error = "<%= error %>";
     if (error !== "") {

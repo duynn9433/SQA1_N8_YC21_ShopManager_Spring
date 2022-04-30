@@ -1,5 +1,6 @@
 package com.duynn.sqa1_n8_yc21_shopmanager_spring.service;
 
+import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.Bill;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.repository.BillRepository;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.repository.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
@@ -40,7 +44,10 @@ class BillServiceTest {
     }
 
     @Test
-    void search() {
+    void search() throws Exception {
+        List<Bill> newn = new ArrayList<>();
+        List<Bill> bills = billService.search(3);
+        assertEquals(newn, bills);
     }
 
     @Test

@@ -22,8 +22,8 @@ public class BillController {
     @Autowired
     BillService billService;
 
-    String error;
-    String url;
+    String error= "";
+    String url = "";
 
     @PostMapping("/search")
     public String search(@RequestParam("search_id") String searchId, HttpServletRequest request) {
@@ -89,8 +89,8 @@ public class BillController {
 
         Bill bill = ((List<Bill>)request.getSession().getAttribute("listBill"))
                 .get(Integer.parseInt(index)-1);
-        request.getSession().setAttribute("bill", bill);
         request.getSession().setAttribute("error",error);
+        request.getSession().setAttribute("bill", bill);
 
         return url;
     }
@@ -118,7 +118,7 @@ public class BillController {
             error += "Số lượng không hợp lệ;";
         }
         request.getSession().setAttribute("error",error);
-        url="selling/SellingHome";
+        url="manager/EditBillView";
         return url;
     }
     @PostMapping("/remove-goods")
@@ -135,7 +135,7 @@ public class BillController {
             error += "Chưa chọn sản phẩm;";
         }
         request.getSession().setAttribute("error",error);
-        url="selling/SellingHome";
+        url="manager/EditBillView";
 
         return url;
     }

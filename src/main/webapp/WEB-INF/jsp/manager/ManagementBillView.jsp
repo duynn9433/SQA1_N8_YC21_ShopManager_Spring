@@ -77,7 +77,7 @@
                         <td>${b.saleOff}</td>
                         <td>${b.note}</td>
                         <td>
-                            <form action="/bill/edit-bill>" method="POST">
+                            <form action="/bill/edit-bill" method="POST">
                                 <input type="hidden" name="eid" value="${b.id}">
                                 <input type="hidden" name="epaymentDate" value="${b.paymentDate}">
                                 <input type="hidden" name="epaymentTotal" value="${b.paymentTotal}">

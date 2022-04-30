@@ -1,15 +1,13 @@
 package com.duynn.sqa1_n8_yc21_shopmanager_spring.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "client")
 @Builder
 @NoArgsConstructor
