@@ -62,11 +62,11 @@
 
             <table cellspacing="6" cellpadding="6" border="1">
                 <tr>
-                    <th>id</th>
+                    <th>ID</th>
                     <th>Ngày mua hàng</th>
                     <th>Tổng thanh toán</th>
                     <th>giảm giá</th>
-                    <th>chú ý</th>
+                    <th>Chú ý</th>
                 </tr>
 
                 <c:forEach var="b" items="${listBill}" varStatus="status">
@@ -77,7 +77,7 @@
                         <td>${b.saleOff}</td>
                         <td>${b.note}</td>
                         <td>
-                            <form action="<c:url value="/ManagementBillServlet"/>" method="POST">
+                            <form action="/bill/edit-bill>" method="POST">
                                 <input type="hidden" name="eid" value="${b.id}">
                                 <input type="hidden" name="epaymentDate" value="${b.paymentDate}">
                                 <input type="hidden" name="epaymentTotal" value="${b.paymentTotal}">
@@ -85,6 +85,7 @@
                                 <input type="hidden" name="enote" value="${b.note}">
                                 <input type="submit" class="btn btn-primary" value="Sửa" name="edit">
                                 <input type="hidden" name="action" value="edit">
+                                <input type="hidden" name="index" value="${status.count}">
                             </form>
                         </td>
 

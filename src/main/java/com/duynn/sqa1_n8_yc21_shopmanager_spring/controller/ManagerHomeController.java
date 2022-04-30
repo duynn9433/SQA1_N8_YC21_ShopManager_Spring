@@ -20,6 +20,10 @@ public class ManagerHomeController {
     @RequestMapping("/bill")
     public String bill(HttpServletRequest request) {
         request.getSession().setAttribute("error", "");
+
+
+
+
         return "manager/ManagementBillView";
     }
 }
