@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -49,15 +50,60 @@ class ClientServiceTest {
     }
 
     @Test
-    void create() {
+    void create() throws Exception {
+        Client c = new Client(0,"ngyen van a","hn","0123456789",true);
+        clientService.create(c);
+        List<Client> client = clientService.searchClientByPhone("0123456789");
+        assertNotEquals(0,client.size());
+        int count=0;
+        for(Client cl :client){
+            if(cl.getName().equals(c.getName()) && cl.getAddress().equals(c.getAddress())){
+                count++;
+                clientService.delete(cl.getID());
+            }
+        }
+        assertNotEquals(0,count);
+
     }
 
     @Test
-    void update() {
+    void update() throws Exception {
+        List<Client> list = clientService.searchClientByPhone("");
+        Client clientupdate = list.get(0);
+        clientupdate.setName("abc");
+        clientupdate.setAddress("hn");
+        clientupdate.setPhoneNumber("000");
+        clientService.update(clientupdate);
+        List<Client> client = clientService.searchClientByPhone(clientupdate.getPhoneNumber());
+        assertNotEquals(0,client.size());
+        int count=0;
+        for(Client cl: client){
+            if(cl.getID()==clientupdate.getID()&&
+                    cl.getName().equals(clientupdate.getName()) &&
+                    cl.getAddress().equals(clientupdate.getAddress())) {
+                count++;
+
+            }
+        }
+        clientService.update(list.get(0));
+        assertEquals(1,count);
+
     }
 
     @Test
-    void delete() {
+    void delete() throws Exception {
+        List<Client> list = clientService.searchClientByPhone("");
+        clientService.delete(list.get(0).getID());
+        List<Client> client = clientService.searchClientByPhone(list.get(0).getPhoneNumber());
+        int count=0;
+        for(Client cl: client){
+            if(cl.getID()==list.get(0).getID() ){
+                count++;
+
+            }
+        }
+        clientService.update(list.get(0));
+        assertEquals(0,count);
     }
 
 //    @Test
