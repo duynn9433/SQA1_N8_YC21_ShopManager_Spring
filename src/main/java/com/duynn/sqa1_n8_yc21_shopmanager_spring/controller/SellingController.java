@@ -5,6 +5,7 @@ import com.duynn.sqa1_n8_yc21_shopmanager_spring.service.BillService;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.service.ClientService;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,8 +46,8 @@ public class SellingController {
     }
 
     @PostMapping("/add-goods")
-    public String addGoods(@RequestParam("amount") String sAmount,
-                           @RequestParam("chooseIndex") String sChooseIndex, HttpServletRequest request) {
+    public String addGoods(@Nullable @RequestParam("amount") String sAmount,
+                           @Nullable @RequestParam("chooseIndex") String sChooseIndex, HttpServletRequest request) {
         error = "";
         Bill bill = (Bill) request.getSession().getAttribute("bill");
         List<Goods> goodsList = (List<Goods>) request.getSession().getAttribute("goodsList");

@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name = "buying_goods")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,12 +35,29 @@ public class BuyingGoods implements java.io.Serializable {
     @JoinColumn(name = "goods_id", referencedColumnName = "id", nullable = false)
     private Goods goods;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bill_id")
     private Bill bill;
 
     public  void reCalTotalPrice() {
         this.totalPrice = this.amount * this.pricePerUnit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BuyingGoods that = (BuyingGoods) o;
+
+        if (ID != that.ID) return false;
+        if (amount != that.amount) return false;
+        if (pricePerUnit != that.pricePerUnit) return false;
+        if (totalPrice != that.totalPrice) return false;
+        if (note != null ? !note.equals(that.note) : that.note != null) return false;
+        return (goods != null ? goods.equals(that.goods) : that.goods == null);
+
     }
 
 }
