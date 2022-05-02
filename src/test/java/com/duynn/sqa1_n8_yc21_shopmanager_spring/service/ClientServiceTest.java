@@ -12,6 +12,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,8 @@ class ClientServiceTest {
     }
 
     @Test
+    @Transactional
+    @Rollback
     void create() throws Exception {
         Client c = new Client(0,"ngyen van a","hn","0123456789",true);
         clientService.create(c);
@@ -59,7 +63,6 @@ class ClientServiceTest {
         for(Client cl :client){
             if(cl.getName().equals(c.getName()) && cl.getAddress().equals(c.getAddress())){
                 count++;
-                clientService.delete(cl.getID());
             }
         }
         assertNotEquals(0,count);
@@ -67,6 +70,8 @@ class ClientServiceTest {
     }
 
     @Test
+    @Transactional
+    @Rollback
     void update() throws Exception {
         List<Client> list = clientService.searchClientByPhone("");
         Client clientupdate = list.get(0);
@@ -85,12 +90,13 @@ class ClientServiceTest {
 
             }
         }
-        clientService.update(list.get(0));
         assertEquals(1,count);
 
     }
 
     @Test
+    @Transactional
+    @Rollback
     void delete() throws Exception {
         List<Client> list = clientService.searchClientByPhone("");
         clientService.delete(list.get(0).getID());
@@ -102,7 +108,6 @@ class ClientServiceTest {
 
             }
         }
-        clientService.update(list.get(0));
         assertEquals(0,count);
     }
 
