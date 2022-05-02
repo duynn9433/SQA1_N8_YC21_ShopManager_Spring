@@ -44,6 +44,15 @@ public class BuyingGoods implements java.io.Serializable {
         this.totalPrice = this.amount * this.pricePerUnit;
     }
 
+    public BuyingGoods(int ID, int amount, long pricePerUnit, String note, Goods goods, Bill bill) {
+        this.ID = ID;
+        this.amount = amount;
+        this.pricePerUnit = pricePerUnit;
+        this.note = note;
+        this.goods = goods;
+        this.bill = bill;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
