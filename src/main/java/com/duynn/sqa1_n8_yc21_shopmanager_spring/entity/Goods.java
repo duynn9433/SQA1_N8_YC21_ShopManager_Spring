@@ -41,7 +41,7 @@ public class Goods implements java.io.Serializable {
 
         Goods goods = (Goods) o;
 
-        if (ID != goods.ID) return false;
+//        if (ID != goods.ID) return false;
         if (pricePerUnit != goods.pricePerUnit) return false;
         if (isActive != goods.isActive) return false;
         if (name != null ? !name.equals(goods.name) : goods.name != null) return false;
