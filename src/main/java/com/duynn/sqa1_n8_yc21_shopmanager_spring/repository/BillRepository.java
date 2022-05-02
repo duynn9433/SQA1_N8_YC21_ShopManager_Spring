@@ -21,4 +21,7 @@ public interface BillRepository extends JpaRepository<Bill, Integer>, JpaSpecifi
 
     List<Bill> findAllByIsActiveIsTrueAndIsPaidIsFalse();
 
+    @Query(value = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"sqaspring\" AND TABLE_NAME = \"bill\"",nativeQuery = true)
+    Integer getLastBillId();
+
 }

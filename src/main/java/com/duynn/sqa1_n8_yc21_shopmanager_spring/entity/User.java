@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,7 +43,7 @@ public class User implements java.io.Serializable {
 
         User user = (User) o;
 
-        if (ID != user.ID) return false;
+//        if (ID != user.ID) return false;
         if (isActive != user.isActive) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;

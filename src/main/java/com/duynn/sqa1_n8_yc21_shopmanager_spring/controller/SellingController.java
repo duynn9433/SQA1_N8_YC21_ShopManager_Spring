@@ -184,7 +184,7 @@ public class SellingController {
             }
         }catch (NumberFormatException e){
             bill.setSaleOff(0);
-            error += "Sale off không hợp lệ;";
+            error += "Giảm giá không hợp lệ;";
             url="selling/SellingHome";
         }
         if(bill.getClient()==null){
@@ -210,8 +210,10 @@ public class SellingController {
         bill.setUser(user);
         bill.setPaid(true);
         try {
-            billService.create(bill);
+            Bill res = billService.create(bill);
             request.getSession().setAttribute("confirmBillMsg", "Lưu thành công");
+            request.getSession().setAttribute("save_billId",res.getId());
+            request.setAttribute("bill",res);
         } catch (Exception e) {
             error+= "";
             request.getSession().setAttribute("confirmBillMsg", "Lưu không thành công, lỗi cơ sở dữ liệu;");

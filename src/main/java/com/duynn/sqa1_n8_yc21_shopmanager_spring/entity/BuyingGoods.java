@@ -51,10 +51,10 @@ public class BuyingGoods implements java.io.Serializable {
 
         BuyingGoods that = (BuyingGoods) o;
 
-        if (ID != that.ID) return false;
+//        if (ID != that.ID) return false;
         if (amount != that.amount) return false;
         if (pricePerUnit != that.pricePerUnit) return false;
-        if (totalPrice != that.totalPrice) return false;
+//        if (totalPrice != that.totalPrice) return false;
         if (note != null ? !note.equals(that.note) : that.note != null) return false;
         return (goods != null ? goods.equals(that.goods) : that.goods == null);
 

@@ -1,9 +1,7 @@
 package com.duynn.sqa1_n8_yc21_shopmanager_spring.controller;
 
-import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.Bill;
-import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.BuyingGoods;
-import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.Goods;
-import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.User;
+import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.*;
+import com.duynn.sqa1_n8_yc21_shopmanager_spring.repository.BillRepository;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.service.BillService;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.lang.Nullable;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,12 +24,15 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.AssertionErrors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,8 +64,12 @@ class SellingControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    BillRepository billRepository;
+
     List<Goods> list;
     Bill bill;
+    List<Client> listClient;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -81,6 +87,9 @@ class SellingControllerTest {
         buyingGoods.setBill(bill);
         bill.addBuyingGoods(buyingGoods);
         bill.reCalPaymentTotal();
+
+        listClient = new ArrayList<>();
+        listClient.add(new Client(1,"Nguyễn Ngọc Duy","hanoi", "0966215413",true));
     }
 
     @AfterEach
@@ -177,19 +186,6 @@ class SellingControllerTest {
     }
 
     @Test
-    void thu(){
-        Bill bill = new Bill();
-        Bill bill2 = new Bill();
-        Goods goods = new Goods(1,"bia", "lon", 20000, null,true);
-        Goods goods1 = new Goods(1,"bia", "lon", 20000, null,true);
-        BuyingGoods buyingGoods = new BuyingGoods(1,1,1,1,"",goods,bill);
-        BuyingGoods buyingGoods2 = new BuyingGoods(1,1,1,1,"",goods1,bill);
-        assertEquals(goods,goods1);
-        assertEquals(buyingGoods,buyingGoods2);
-    }
-
-
-    @Test
     @DisplayName("UpdateGoods: Sua thanh cong")
     void updateGoods() throws Exception {
         List<Goods> list = new ArrayList<>();
@@ -284,22 +280,221 @@ class SellingControllerTest {
     }
 
     @Test
-    void searchClient() {
+    @DisplayName("SearchClient: Khong tim thay khach hang")
+    void searchClient() throws Exception {
+        String error = "Không tìm thấy khách hàng nào;";
+        this.mockMvc.perform(post("/selling/search-client")
+                        .param("client_phone","1234567879"))
+
+                .andDo(print())
+//                .andExpect(request().sessionAttribute("bill", is()))
+                .andExpect(request().sessionAttribute("error", is(error)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
+    }
+    @Test
+    @DisplayName("SearchClient: Tim thay khach hang")
+    void searchClient2() throws Exception {
+//        List<Client> list = new ArrayList<>();
+//        list.add(new Client(1,"Nguyễn Ngọc Duy","hanoi", "0966215413",true));
+        this.mockMvc.perform(post("/selling/search-client")
+                        .param("client_phone","0966215413"))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("listClient", is(listClient)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
     }
 
     @Test
-    void addClient() {
+    @DisplayName("AddClient: Chua chon khach hang")
+    void addClient() throws Exception {
+        String error = "Chưa chọn khách hàng;";
+        this.mockMvc.perform(post("/selling/add-client")
+                        .param("chooseIndex",""))
+
+                .andDo(print())
+//                .andExpect(request().sessionAttribute("bill", is()))
+                .andExpect(request().sessionAttribute("error", is(error)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
+    }
+    @Test
+    @DisplayName("AddClient: Them khach hang thanh cong")
+    void addClient2() throws Exception {
+        Bill bill = new Bill();
+        Bill billAfterAdd = new Bill();
+        billAfterAdd.setClient(listClient.get(0));
+        this.mockMvc.perform(post("/selling/add-client")
+                        .param("chooseIndex","1")
+                        .sessionAttr("listClient", listClient)
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("bill", is(billAfterAdd)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
     }
 
     @Test
-    void saveBill() {
+    @DisplayName("ConfirmBill: Xac nhan thanh cong")
+    void saveBill() throws Exception {
+        bill.setClient(listClient.get(0));
+//        bill.setSaleOff(0.5f);
+
+        this.mockMvc.perform(get("/selling/confirm-bill")
+                        .param("sale_off","0.5")
+                        .sessionAttr("listClient", listClient)
+                        .sessionAttr("goodsList", list)
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("bill", is(bill)))
+                .andExpect(view().name("selling/Confirm"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/Confirm.jsp"));
     }
 
     @Test
-    void testSaveBill() {
+    @DisplayName("ConfirmBill: Giam gia khong hop le sai format")
+    void saveBill2() throws Exception {
+        bill.setClient(listClient.get(0));
+//        bill.setSaleOff(0.5f);
+        String error = "Giảm giá không hợp lệ;";
+        this.mockMvc.perform(get("/selling/confirm-bill")
+                        .param("sale_off","adfasdf")
+                        .sessionAttr("listClient", listClient)
+                        .sessionAttr("goodsList", list)
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("error", is(error)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
+    }
+    @Test
+    @DisplayName("ConfirmBill: Giam gia khong hop le <0")
+    void saveBill3() throws Exception {
+        bill.setClient(listClient.get(0));
+//        bill.setSaleOff(0.5f);
+        String error = "Giảm giá không hợp lệ (chỉ trong khoảng 0-1);";
+        this.mockMvc.perform(get("/selling/confirm-bill")
+                        .param("sale_off","-0.5")
+                        .sessionAttr("listClient", listClient)
+                        .sessionAttr("goodsList", list)
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("error", is(error)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
+    }
+    @Test
+    @DisplayName("ConfirmBill: Giam gia khong hop le >1")
+    void saveBill4() throws Exception {
+        bill.setClient(listClient.get(0));
+//        bill.setSaleOff(0.5f);
+        String error = "Giảm giá không hợp lệ (chỉ trong khoảng 0-1);";
+        this.mockMvc.perform(get("/selling/confirm-bill")
+                        .param("sale_off","1.5")
+                        .sessionAttr("listClient", listClient)
+                        .sessionAttr("goodsList", list)
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("error", is(error)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
+    }
+    @Test
+    @DisplayName("ConfirmBill: Thieu Client")
+    void saveBill5() throws Exception {
+//        bill.setClient(listClient.get(0));
+//        bill.setSaleOff(0.5f);
+        String error = "Vui lòng thêm khách hàng;";
+        this.mockMvc.perform(get("/selling/confirm-bill")
+                        .param("sale_off","0.5")
+                        .sessionAttr("listClient", listClient)
+                        .sessionAttr("goodsList", list)
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("error", is(error)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
+    }
+    @Test
+    @DisplayName("ConfirmBill: Thieu mat hang")
+    void saveBill6() throws Exception {
+        bill.setClient(listClient.get(0));
+        bill.getBuyingGoodsList().clear();
+//        bill.setSaleOff(0.5f);
+        String error = "Vui lòng thêm sản phẩm;";
+        this.mockMvc.perform(get("/selling/confirm-bill")
+                        .param("sale_off","0.5")
+                        .sessionAttr("listClient", listClient)
+                        .sessionAttr("goodsList", list)
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("error", is(error)))
+                .andExpect(view().name("selling/SellingHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
     }
 
     @Test
-    void cancelBill() {
+    @DisplayName("SaveBill")
+    @Transactional
+    @Rollback
+    void testSaveBill() throws Exception {
+        Bill bill = new Bill(0,LocalDateTime.now(),0,0.5f,null,true,true
+                ,new User(1, "", "", "", "", "", true)
+                ,listClient.get(0), new ArrayList<>());
+        Goods goods = new Goods(1,"bia","lon",20000,null,true);
+        BuyingGoods buyingGoods = new BuyingGoods(0,1,20000,0,null,goods,bill);
+        bill.addBuyingGoods(buyingGoods);
+
+        this.mockMvc.perform(post("/selling/save-bill")
+                        .sessionAttr("user", new User(1,"","","","","",true))
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().attribute("bill", is(bill)))
+                .andExpect(request().sessionAttribute("confirmBillMsg", is("Lưu thành công")))
+                .andExpect(view().name("seller/SellerHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/seller/SellerHome.jsp"));
+    }
+    @Test
+    @DisplayName("SaveBill: loi")
+    @Transactional
+    @Rollback
+    void testSaveBill2() throws Exception {
+        Bill bill = new Bill(0,null,0,0.5f,null,true,true
+                ,new User(1, "", "", "", "", "", true)
+                ,listClient.get(0), new ArrayList<>());
+        Goods goods = new Goods(1,"bia","lon",20000,null,true);
+        BuyingGoods buyingGoods = new BuyingGoods(0,1,20000,0,null,goods,bill);
+        bill.addBuyingGoods(buyingGoods);
+
+        String confirmBillMsg = "Lưu không thành công, lỗi cơ sở dữ liệu;";
+
+        this.mockMvc.perform(post("/selling/save-bill")
+                        .sessionAttr("user", new User(1,"","","","","",true))
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("confirmBillMsg", is(confirmBillMsg)))
+                .andExpect(view().name("seller/SellerHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/seller/SellerHome.jsp"));
+    }
+
+    @Test
+    void cancelBill() throws Exception {
+        this.mockMvc.perform(post("/selling/cancel-bill")
+                        .sessionAttr("bill", bill))
+
+                .andDo(print())
+                .andExpect(request().sessionAttribute("bill", is(nullValue())))
+                .andExpect(view().name("seller/SellerHome"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/seller/SellerHome.jsp"));
     }
 }

@@ -18,7 +18,7 @@ public class Bill implements java.io.Serializable, Cloneable {
     private static final long serialVersionUID=1L;
 
     @Id
-    @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
 
@@ -87,8 +87,8 @@ public class Bill implements java.io.Serializable, Cloneable {
 
         Bill bill = (Bill) o;
 
-        if (id != bill.id) return false;
-        if (paymentTotal != bill.paymentTotal) return false;
+//        if (id != bill.id) return false;
+//        if (paymentTotal != bill.paymentTotal) return false;
         if (Float.compare(bill.saleOff, saleOff) != 0) return false;
         if (isPaid != bill.isPaid) return false;
         if (isActive != bill.isActive) return false;
