@@ -11,9 +11,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @Table(name = "bill")
-public class Bill implements java.io.Serializable {
+public class Bill implements java.io.Serializable, Cloneable {
     private static final long serialVersionUID=1L;
 
     @Id
@@ -77,5 +78,29 @@ public class Bill implements java.io.Serializable {
             }
         }
         buyingGoodsList.add(buyingGoods);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Bill bill = (Bill) o;
+
+        if (id != bill.id) return false;
+        if (paymentTotal != bill.paymentTotal) return false;
+        if (Float.compare(bill.saleOff, saleOff) != 0) return false;
+        if (isPaid != bill.isPaid) return false;
+        if (isActive != bill.isActive) return false;
+        if (paymentDate != null ? !paymentDate.equals(bill.paymentDate) : bill.paymentDate != null) return false;
+        if (note != null ? !note.equals(bill.note) : bill.note != null) return false;
+        if (user != null ? !user.equals(bill.user) : bill.user != null) return false;
+        if (client != null ? !client.equals(bill.client) : bill.client != null) return false;
+        return buyingGoodsList != null ? buyingGoodsList.equals(bill.buyingGoodsList) : bill.buyingGoodsList == null;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

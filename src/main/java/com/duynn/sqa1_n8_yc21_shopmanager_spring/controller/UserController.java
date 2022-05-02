@@ -34,17 +34,4 @@ public class UserController {
         }
         return "index";
     }
-//    @PostMapping("/login")
-//    public String login(HttpServletRequest request, HttpServletResponse response) {
-//        User user = userService.findByUsername(request.getAttribute("username").toString());
-//        if (user != null && user.getPassword().equals(request.getAttribute("password").toString())) {
-//            request.getSession().setAttribute("user", user);
-//            if(user.getPosition().equals("seller")) {
-//                return "index2";
-//            }else if(user.getPosition().equals("manager")) {
-//                return "manager/ManagerHomeview";
-//            }
-//        }
-//        return "index";
-//    }
 }
