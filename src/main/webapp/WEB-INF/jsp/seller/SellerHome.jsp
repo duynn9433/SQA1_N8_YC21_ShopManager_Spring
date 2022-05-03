@@ -28,7 +28,7 @@
     <div class="row">
 
         <div class="col-sm-4">
-            <form action="<c:url value="/sellerHomeServlet"/>" method="post">
+            <form action="/user/logout" method="get">
                 <input class="btn btn-danger" type="submit" value="Đăng xuất">
             </form>
         </div>
