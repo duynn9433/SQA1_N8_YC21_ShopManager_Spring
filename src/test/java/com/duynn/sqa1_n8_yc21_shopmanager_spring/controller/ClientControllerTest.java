@@ -3,25 +3,22 @@ package com.duynn.sqa1_n8_yc21_shopmanager_spring.controller;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.Client;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.repository.ClientRepository;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.service.ClientService;
-import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
+import static net.bytebuddy.matcher.ElementMatchers.is;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
 class ClientControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -98,6 +95,19 @@ class ClientControllerTest {
                 .andDo(print())
                 .andExpect(request().sessionAttribute("error", is("")))
                 .andExpect(request().sessionAttribute("listClient", clients))
+                .andExpect(view().name("/manager/ManagementClientView"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/manager/ManagementClientView.jsp"));
+    }
+
+    @Test
+    @DisplayName("Sai dinh dang SDT")
+    public void searchClient3() throws Exception {
+        String error = "Sai định dạng SĐT";
+        this.mockMvc.perform(post("manager/search")
+                        .param("search_phone", "aaaaaaa"))
+                .andDo(print())
+                .andExpect(request().sessionAttribute("error", is(error)))
+                .andExpect(request().sessionAttribute("listClient", clients.removeAll(clients)))
                 .andExpect(view().name("/manager/ManagementClientView"))
                 .andExpect(forwardedUrl("/WEB-INF/jsp/manager/ManagementClientView.jsp"));
     }
