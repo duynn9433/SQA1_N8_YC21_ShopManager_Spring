@@ -37,7 +37,8 @@ and open the template in the editor.
         <h1>Đăng nhập</h1><br>
 <%--        <form class = "form-inline" action="<c:url value="/user/login" />" method ="post">--%>
         <%--@elvariable id="user" type="User"--%>
-        <form class = "form-inline" action="user/login/" method ="post">
+        <h4 style="color: red">${error}</h4>
+        <form class = "form-inline" action="/user/login/" method ="post">
             <div class ="input-group">
                 <input type="hidden" name="action" value="checkLogin">
                 <table>
