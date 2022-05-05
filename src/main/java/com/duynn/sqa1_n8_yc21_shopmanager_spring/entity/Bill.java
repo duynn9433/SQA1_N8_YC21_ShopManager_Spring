@@ -57,27 +57,16 @@ public class Bill implements java.io.Serializable, Cloneable {
         isPaid = false;
     }
 
-    public Bill(int id, LocalDateTime paymentDate, long paymentTotal, float saleOff, String note, boolean isPaid, boolean isActive, User user, Client client, List<BuyingGoods> buyingGoodsList) {
+    public Bill(int id, LocalDateTime paymentDate, float saleOff, String note, boolean isPaid, boolean isActive, User user, Client client) {
         this.id = id;
         this.paymentDate = paymentDate;
-        this.paymentTotal = paymentTotal;
         this.saleOff = saleOff;
         this.note = note;
         this.isPaid = isPaid;
         this.isActive = isActive;
         this.user = user;
         this.client = client;
-        this.buyingGoodsList = buyingGoodsList;
     }
-
-    public Bill(int id, float saleOff, String note, boolean isPaid, boolean isActive) {
-        this.id = id;
-        this.saleOff = saleOff;
-        this.note = note;
-        this.isPaid = isPaid;
-        this.isActive = isActive;
-    }
-
 
     public void reCalPaymentTotal() {
         paymentTotal =0;
