@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -17,6 +18,7 @@ public class UserService {
 
     public User findByUsername(String username){
         User user = userRepository.findUserByUsername(username);
+        Logger.getLogger(UserService.class.getName()).info("Find user: " + user);
         return user;
     }
 }
