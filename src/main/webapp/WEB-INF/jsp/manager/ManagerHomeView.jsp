@@ -25,13 +25,13 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <form action="<c:url value="/ManagementClientServlet"/>" method="post">
-                <input class="btn btn-danger" type="submit" value="Log out">
+            <form action="/user/logout" method="get">
+                <input class="btn btn-danger" type="submit" value="Đăng xuất">
             </form>
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
-            <h3>Logged in as: ${user.name} </h3>
+            <h3>Xin chào ${user.name} </h3>
         </div>
     </div>
     <div class="row" style="margin-top:20px;">
