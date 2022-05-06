@@ -17,13 +17,10 @@ public class ManagerHomeController {
     public String client() {
         return "manager/ManagementClientView";
     }
+
     @RequestMapping("/bill")
     public String bill(HttpServletRequest request) {
         request.getSession().setAttribute("error", "");
-
-
-
-
         return "manager/ManagementBillView";
     }
 }

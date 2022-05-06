@@ -35,8 +35,4 @@ public class BuyingGoodsService implements GeneralService<BuyingGoods>{
         return buyingGoodsRepository.deleteBuyingGoods(id);
     }
 
-    public int delete(BuyingGoods buyingGoods) throws Exception {
-        Logger.getLogger(this.getClass().getName()).info("Delete BuyingGoods: " + buyingGoods.toString());
-        return buyingGoodsRepository.deleteBuyingGoods(buyingGoods.getID());
-    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
+
 @Table(name = "bill")
 public class Bill implements java.io.Serializable, Cloneable {
     private static final long serialVersionUID=1L;
@@ -76,6 +76,9 @@ public class Bill implements java.io.Serializable, Cloneable {
         this.note = note;
         this.isPaid = isPaid;
         this.isActive = isActive;
+    }
+
+    public Bill(int i, LocalDateTime localDateTime, float v, String huytamtest, boolean b, boolean b1, User user, Client client) {
     }
 
 

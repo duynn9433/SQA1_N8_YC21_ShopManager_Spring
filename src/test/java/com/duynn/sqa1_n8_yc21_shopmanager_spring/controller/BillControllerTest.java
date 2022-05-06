@@ -1,6 +1,7 @@
 package com.duynn.sqa1_n8_yc21_shopmanager_spring.controller;
 
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.Bill;
+import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.BuyingGoods;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.Client;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.User;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.repository.BillRepository;

@@ -16,11 +16,6 @@ public class GoodsService{
     @Autowired
     GoodsRepository goodsRepository;
 
-    public List<Goods> findByName(String name) {
-        List<Goods> list = goodsRepository.findByNameAndIsActiveIsTrue(name);
-        Logger.getLogger(GoodsService.class.getName()).info("Find Goods by name: " + list);
-        return list;
-    }
     public List<Goods> searchByName(String name) {
         List<Goods> list = goodsRepository.searchByNameAndIsActiveIsTrue(name);
         Logger.getLogger(GoodsService.class.getName()).info("Search Goods by name: " + list);
