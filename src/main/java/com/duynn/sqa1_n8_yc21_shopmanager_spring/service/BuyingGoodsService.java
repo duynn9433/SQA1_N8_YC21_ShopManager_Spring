@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -18,20 +19,20 @@ public class BuyingGoodsService implements GeneralService<BuyingGoods>{
     @Override
     public BuyingGoods create(BuyingGoods buyingGoods) throws Exception {
 //        buyingGoods.set
+        Logger.getLogger(this.getClass().getName()).info("Create BuyingGoods: " + buyingGoods.toString());
         return buyingGoodsRepository.save(buyingGoods);
     }
 
     @Override
     public BuyingGoods update(BuyingGoods buyingGoods) throws Exception {
+        Logger.getLogger(this.getClass().getName()).info("Update BuyingGoods: " + buyingGoods.toString());
         return buyingGoodsRepository.save(buyingGoods);
     }
 
     @Override
     public int delete(int id) throws Exception {
+        Logger.getLogger(this.getClass().getName()).info("Delete BuyingGoods: " + id);
         return buyingGoodsRepository.deleteBuyingGoods(id);
     }
 
-    public int delete(BuyingGoods buyingGoods) throws Exception {
-        return buyingGoodsRepository.deleteBuyingGoods(buyingGoods.getID());
-    }
 }

@@ -39,7 +39,7 @@ CREATE TABLE `bill` (
                         KEY `fk_bill_user1_idx` (`user_id`),
                         CONSTRAINT `fk_bill_client1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`),
                         CONSTRAINT `fk_bill_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ CREATE TABLE `bill` (
 
 LOCK TABLES `bill` WRITE;
 /*!40000 ALTER TABLE `bill` DISABLE KEYS */;
-INSERT INTO `bill` VALUES (1,'2022-04-24 16:00:44',0,'for test',1,1,4,2),(2,'2022-04-24 15:55:06',0,NULL,0,0,4,2),(3,'2022-04-24 16:00:44',0,'qwe',0,1,4,2);
+INSERT INTO `bill` VALUES (1,'2022-04-24 16:00:44',0,'for test',1,1,4,2),(2,'2022-04-24 15:55:06',0,NULL,0,0,4,2),(3,'2022-04-24 16:00:44',0,'qwe',0,1,4,2),(17,'2022-05-04 14:07:15',0,NULL,1,1,1,2),(18,'2022-05-04 14:10:16',0,NULL,1,1,1,2),(19,'2022-05-04 23:39:00',0,NULL,1,1,4,2),(20,'2022-05-04 23:39:12',0,NULL,1,1,4,2),(21,'2022-05-04 23:39:23',0,NULL,1,1,4,2),(22,'2022-05-04 23:39:34',0,NULL,1,1,4,2),(23,'2022-05-04 23:41:23',0,NULL,1,1,8,2),(24,'2022-05-04 23:41:33',0,NULL,1,1,8,2),(25,'2022-05-04 23:41:44',0,NULL,1,1,8,2),(26,'2022-05-04 23:41:54',0,NULL,1,1,8,2),(27,'2022-05-04 23:46:00',0,NULL,1,1,8,2),(28,'2022-05-04 23:47:01',0,NULL,1,1,8,2),(29,'2022-05-04 23:51:17',0,NULL,1,1,8,2),(30,'2022-05-04 23:52:52',0,NULL,1,1,8,2),(31,'2022-05-04 23:54:40',0,NULL,1,1,8,2),(32,'2022-05-04 23:57:53',0,NULL,1,1,8,2),(33,'2022-05-04 23:58:26',0,NULL,1,1,8,2);
 /*!40000 ALTER TABLE `bill` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +72,7 @@ CREATE TABLE `buying_goods` (
                                 KEY `fk_buying_goods_bill1_idx` (`bill_id`),
                                 CONSTRAINT `fk_buying_goods_bill1` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`id`),
                                 CONSTRAINT `goods_id` FOREIGN KEY (`goods_id`) REFERENCES `goods` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +81,7 @@ CREATE TABLE `buying_goods` (
 
 LOCK TABLES `buying_goods` WRITE;
 /*!40000 ALTER TABLE `buying_goods` DISABLE KEYS */;
-INSERT INTO `buying_goods` VALUES (1,200,10000,NULL,3,2),(2,11,10000,NULL,3,3);
+INSERT INTO `buying_goods` VALUES (1,200,10000,NULL,3,2),(2,11,10000,NULL,3,3),(23,1,20000,NULL,1,17),(24,1,20000,NULL,1,18),(25,1,20000,NULL,1,19),(26,1,20000,NULL,1,20),(27,1,20000,NULL,1,21),(28,1,20000,NULL,1,22),(29,1,20000,NULL,1,23),(30,1,20000,NULL,1,24),(31,1,20000,NULL,1,25),(32,1,20000,NULL,1,26),(33,1,20000,NULL,1,27),(34,1,20000,NULL,1,28),(35,1,20000,NULL,1,29),(36,1,20000,NULL,1,30),(37,1,20000,NULL,1,31),(38,1,20000,NULL,1,32),(39,1,20000,NULL,1,33);
 /*!40000 ALTER TABLE `buying_goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +100,7 @@ CREATE TABLE `client` (
                           `is_active` tinyint NOT NULL DEFAULT '1',
                           PRIMARY KEY (`id`),
                           UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (1,'Nguyễn Ngọc Duy','hanoi','0966215413',1),(2,'Nguyen Ngoc Duy','4883 Locust View Drive','0966123456',1),(3,'a','active false','1111111111',0),(4,'b','active true','2222222222',0);
+INSERT INTO `client` VALUES (1,'Nguyễn Ngọc Duy','hanoi','0966215413',1),(2,'Nguyen Ngoc Duy','4883 Locust View Drive','0966123456',1),(3,'a','active false','1111111111',0),(4,'b','active true','2222222222',1),(8,'test kh','ptit','0978123456',1);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +138,7 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
-INSERT INTO `goods` VALUES (1,'bia','lon',20000,NULL,1),(2,'bim bim','goi',5000,NULL,1),(3,'coca','lon',10000,NULL,1),(4,'1','1',1,'test active false',0),(5,'11','11',11,'test active true',1);
+INSERT INTO `goods` VALUES (1,'bia','lon',20000,NULL,1),(2,'bim bim','goi',5000,NULL,1),(3,'coca','lon',10000,NULL,1),(4,'22','22',22,'test active false',0),(5,'11','11',11,'test active true',1);
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,7 +159,7 @@ CREATE TABLE `user` (
                         `is_active` tinyint NOT NULL DEFAULT '1',
                         PRIMARY KEY (`id`),
                         UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +168,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'manager','manager','manager','manager','0123456789',1),(2,'seller','seller','seller','seller','0123666666',1);
+INSERT INTO `user` VALUES (1,'manager','manager','manager','manager','0123456789',1),(2,'seller','seller','seller','seller','0123666666',1),(3,'manager2','manager2','manager2','manager2','0123456788',1),(4,'seller2','seller2','seller2','seller2','0123456787',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -181,4 +181,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-02 21:31:47
+-- Dump completed on 2022-05-06 11:11:00

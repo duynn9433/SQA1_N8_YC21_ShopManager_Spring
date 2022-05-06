@@ -1,8 +1,10 @@
 package com.duynn.sqa1_n8_yc21_shopmanager_spring.controller;
 
+import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.Bill;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.entity.Client;
 import com.duynn.sqa1_n8_yc21_shopmanager_spring.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,10 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping("/add")
-    public String newClient(@ModelAttribute("client") Client client, HttpServletRequest request) {
+    public String newClient(@ModelAttribute("client") Client client,
+                            HttpServletRequest request) {
         String url ="";
+
         try {
             //check validation
             request.setAttribute("client", client);
@@ -39,6 +43,13 @@ public class ClientController {
         try {
             clientService.create(client);
             request.setAttribute("client", client);
+            String return_view = (String) request.getSession().getAttribute("return_view");
+            if(return_view != null) {
+                ((Bill) request.getSession().getAttribute("bill")).setClient(client);
+                url = return_view;
+                request.getSession().setAttribute("error", "");
+                return url;
+            }
             url ="client/AddSuccess";
             request.getSession().setAttribute("addClientMsg", "Thêm thành công khách hàng");
         } catch (Exception e) {
