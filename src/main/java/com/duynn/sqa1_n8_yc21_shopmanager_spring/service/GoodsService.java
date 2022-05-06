@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -15,12 +16,9 @@ public class GoodsService{
     @Autowired
     GoodsRepository goodsRepository;
 
-    public List<Goods> findByName(String name) {
-        List<Goods> list = goodsRepository.findByNameAndIsActiveIsTrue(name);
-        return list;
-    }
     public List<Goods> searchByName(String name) {
         List<Goods> list = goodsRepository.searchByNameAndIsActiveIsTrue(name);
+        Logger.getLogger(GoodsService.class.getName()).info("Search Goods by name: " + list);
         return list;
     }
 }

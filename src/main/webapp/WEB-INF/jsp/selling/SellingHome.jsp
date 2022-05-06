@@ -169,9 +169,10 @@
 
             </div>
             <div class="col-md-4" style="border:1px solid #cecece;">
-                <form action="/client/add" method="get">
+                <form action="/seller/add-client" method="get">
                     <input type="hidden" name="action" value="add_client">
-                    <button class="btn btn-primary" type="submit" disabled>Thêm khách hàng</button>
+                    <input type="hidden" name="return_view" value="selling/SellingHome">
+                    <button class="btn btn-primary" type="submit" >Thêm khách hàng</button>
                 </form>
                 <br>
                 <form action="/selling/confirm-bill" method="get">

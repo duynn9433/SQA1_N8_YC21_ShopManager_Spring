@@ -112,7 +112,4 @@ class BuyingGoodsServiceTest {
         assertEquals(0,count);
     }
 
-    @Test
-    void testDelete() {
-    }
 }

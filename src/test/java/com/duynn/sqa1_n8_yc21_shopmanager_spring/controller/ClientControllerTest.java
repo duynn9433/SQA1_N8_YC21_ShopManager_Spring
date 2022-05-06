@@ -32,6 +32,7 @@ class ClientControllerTest {
 
     List<Client> clients;
     Client client;
+    @Autowired
     ClientService clientService;
 
     @BeforeEach
@@ -133,7 +134,7 @@ class ClientControllerTest {
     @DisplayName("Xoa khach hang thanh cong")
     public void deleteClient() throws Exception {
         String phone = "";
-        clientService = new ClientService();
+//        clientService = new ClientService();
         clients = clientService.searchClientByPhone(phone.trim());
         client = clients.get(0);
         clients = new ArrayList<>();
@@ -144,4 +145,5 @@ class ClientControllerTest {
                 .andExpect(view().name("manager/ManagementClientView"))
                 .andExpect(forwardedUrl("/WEB-INF/jsp/manager/ManagementClientView.jsp"));
     }
+
 }

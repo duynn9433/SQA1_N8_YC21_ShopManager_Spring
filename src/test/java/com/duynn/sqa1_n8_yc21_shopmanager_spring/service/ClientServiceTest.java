@@ -79,8 +79,10 @@ class ClientServiceTest {
         clientupdate.setAddress("hn");
         clientupdate.setPhoneNumber("000");
         clientService.update(clientupdate);
+
         List<Client> client = clientService.searchClientByPhone(clientupdate.getPhoneNumber());
         assertNotEquals(0,client.size());
+
         int count=0;
         for(Client cl: client){
             if(cl.getID()==clientupdate.getID()&&

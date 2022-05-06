@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
+
 @Table(name = "bill")
 public class Bill implements java.io.Serializable, Cloneable {
     private static final long serialVersionUID=1L;
@@ -57,6 +57,18 @@ public class Bill implements java.io.Serializable, Cloneable {
         isPaid = false;
     }
 
+    public Bill(int id, LocalDateTime paymentDate, long paymentTotal, float saleOff, String note, boolean isPaid, boolean isActive, User user, Client client, List<BuyingGoods> buyingGoodsList) {
+        this.id = id;
+        this.paymentDate = paymentDate;
+        this.paymentTotal = paymentTotal;
+        this.saleOff = saleOff;
+        this.note = note;
+        this.isPaid = isPaid;
+        this.isActive = isActive;
+        this.user = user;
+        this.client = client;
+        this.buyingGoodsList = buyingGoodsList;
+    }
 
     public Bill(int id, float saleOff, String note, boolean isPaid, boolean isActive) {
         this.id = id;
@@ -66,6 +78,26 @@ public class Bill implements java.io.Serializable, Cloneable {
         this.isActive = isActive;
     }
 
+    public Bill(int id, LocalDateTime paymentDate, float saleOff, String note, boolean isPaid, boolean isActive, User user, Client client) {
+        this.id = id;
+        this.paymentDate = paymentDate;
+        this.saleOff = saleOff;
+        this.note = note;
+        this.isPaid = isPaid;
+        this.isActive = isActive;
+        this.user = user;
+        this.client = client;
+    }
+
+    public Bill(int id, float saleOff, String note, boolean isPaid, boolean isActive, User user, Client client) {
+        this.id = id;
+        this.saleOff = saleOff;
+        this.note = note;
+        this.isPaid = isPaid;
+        this.isActive = isActive;
+        this.user = user;
+        this.client = client;
+    }
 
     public void reCalPaymentTotal() {
         paymentTotal =0;

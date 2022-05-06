@@ -77,4 +77,13 @@ class UserControllerTest extends Mockito {
                 .andExpect(request().sessionAttribute("user", is(nullValue())));
     }
 
+    @Test
+    void logout() throws Exception {
+        this.mockMvc.perform(get("/user/logout")
+                        .sessionAttr("user", new User()))
+                .andDo(print())
+                .andExpect(view().name("index"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/index.jsp"))
+                .andExpect(request().sessionAttribute("user", is(nullValue())));
+    }
 }

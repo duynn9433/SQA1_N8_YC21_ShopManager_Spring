@@ -149,7 +149,7 @@ public class SellingController {
     }
 
     @PostMapping("/add-client")
-    public String addClient(@RequestParam("chooseIndex") String chooseIndex, HttpServletRequest request) {
+    public String addClient(@Nullable @RequestParam("chooseIndex") String chooseIndex, HttpServletRequest request) {
         error = "";
         List<Client> list = (List<Client>) request.getSession().getAttribute("listClient");
         try {
