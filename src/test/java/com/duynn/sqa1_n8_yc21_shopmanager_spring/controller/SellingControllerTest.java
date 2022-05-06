@@ -196,13 +196,23 @@ class SellingControllerTest {
         Goods goods = list.get(0);
         BuyingGoods buyingGoods = new BuyingGoods();
         buyingGoods.setGoods(goods);
-        buyingGoods.setAmount(10);  //amount after change
+        buyingGoods.setAmount(1);  //amount after change
         buyingGoods.setPricePerUnit(goods.getPricePerUnit());
         buyingGoods.setTotalPrice(1*goods.getPricePerUnit());
         buyingGoods.setBill(bill);
         bill.addBuyingGoods(buyingGoods);
         bill.reCalPaymentTotal();
 
+        Bill expectedBill = new Bill();
+        Goods expectedGoods = list.get(0);
+        BuyingGoods expectedBuyingGoods = new BuyingGoods();
+        expectedBuyingGoods.setGoods(expectedGoods);
+        expectedBuyingGoods.setAmount(10);  //amount after change
+        expectedBuyingGoods.setPricePerUnit(goods.getPricePerUnit());
+        expectedBuyingGoods.setTotalPrice(1*goods.getPricePerUnit());
+        expectedBuyingGoods.setBill(expectedBill);
+        expectedBill.addBuyingGoods(expectedBuyingGoods);
+        expectedBill.reCalPaymentTotal();
 
         this.mockMvc.perform(post("/selling/update-goods")
                         .param("amount","10")
@@ -211,6 +221,7 @@ class SellingControllerTest {
                         .sessionAttr("bill", bill))
 
                 .andDo(print())
+                .andExpect(request().sessionAttribute("bill", is(expectedBill)))
                 .andExpect(view().name("selling/SellingHome"))
                 .andExpect(forwardedUrl("/WEB-INF/jsp/selling/SellingHome.jsp"));
     }
